@@ -1,0 +1,89 @@
+{
+  "name": "cleanedgeremovalwebsite",
+  "version": "1.0.0",
+  "description": "Enterprise-grade website solution for Clean Edge Removal LLC",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "build": "npm run build:shared && npm run build:client && npm run build:server",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "build:shared": "cd shared && npm run build",
+    "start": "cd server && npm run start",
+    "test": "npm run test:client && npm run test:server && npm run test:shared",
+    "test:client": "cd client && npm run test",
+    "test:server": "cd server && npm run test",
+    "test:shared": "cd shared && npm run test",
+    "lint": "npm run lint:client && npm run lint:server && npm run lint:shared",
+    "lint:client": "cd client && npm run lint",
+    "lint:server": "cd server && npm run lint",
+    "lint:shared": "cd shared && npm run lint",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "db:init": "cd server && npm run db:init",
+    "db:seed": "cd server && npm run db:seed",
+    "db:reset": "cd server && npm run db:reset",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "storybook": "cd client && npm run storybook",
+    "build-storybook": "cd client && npm run build-storybook",
+    "docker:build": "docker build -t cleanedgeremoval .",
+    "docker:run": "docker run -p 80:5000 -d cleanedgeremoval",
+    "deploy:aws": "cdk deploy",
+    "deploy:heroku": "git push heroku main",
+    "deploy:ionos": "node scripts/deploy-ionos.js",
+    "deploy:ionos:staging": "node scripts/deploy-ionos.js staging",
+    "deploy:ionos:production": "node scripts/deploy-ionos.js production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-organization/cleanedgeremovalwebsite.git"
+  },
+  "keywords": [
+    "junk-removal",
+    "cleaning-services",
+    "react",
+    "node",
+    "mongodb",
+    "express"
+  ],
+  "author": "Clean Edge Removal LLC",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/your-organization/cleanedgeremovalwebsite/issues"
+  },
+  "homepage": "https://github.com/your-organization/cleanedgeremovalwebsite#readme",
+  "devDependencies": {
+    "archiver": "^6.0.1",
+    "basic-ftp": "^5.0.3",
+    "chalk": "^4.1.2",
+    "commander": "^11.0.0",
+    "concurrently": "^8.2.1",
+    "cypress": "^13.2.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,html,css}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.10"
+  }
+}

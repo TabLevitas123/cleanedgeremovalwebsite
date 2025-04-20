@@ -1,0 +1,36 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react-jsx",
+    "outDir": "dist",
+    // "rootDir": "src", // Removed rootDir
+    // "baseUrl": "src", // Removed baseUrl
+    "composite": true, // Ensure composite is true for referencing
+    "paths": {
+      // Keep existing paths if needed, but direct reference is preferred
+      "@/*": ["./src/*"], // Adjusted path relative to tsconfig location
+      "@components/*": ["components/*"],
+      "@features/*": ["features/*"],
+      "@hooks/*": ["hooks/*"],
+      "@utils/*": ["utils/*"],
+      "@services/*": ["services/*"],
+      "@contexts/*": ["contexts/*"],
+      "@types/*": ["types/*"],
+      "@assets/*": ["assets/*"],
+      "@cleanedgeremovalwebsite/shared/*": ["../../shared/src/*"]
+    },
+    "allowJs": true,
+    "checkJs": false,
+    "isolatedModules": true,
+    "noEmit": true,
+    "incremental": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx", "**/*.stories.tsx"],
+  "references": [ // Add reference to the shared project
+    { "path": "../shared" }
+  ]
+}

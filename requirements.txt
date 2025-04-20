@@ -1,0 +1,192 @@
+# Clean Edge Removal LLC Website Project - Dependencies
+
+## Frontend Dependencies
+
+### Core Dependencies
+react=18.2.0                # React library
+react-dom=18.2.0            # React DOM manipulation
+react-router-dom=6.16.0     # Routing library for React
+redux=4.2.1                 # State management library
+react-redux=8.1.2           # React bindings for Redux
+@reduxjs/toolkit=1.9.5      # Toolset for efficient Redux development
+axios=1.5.0                 # HTTP client for API requests
+typescript=5.2.2            # TypeScript language
+@types/react=18.2.21        # TypeScript definitions for React
+@types/react-dom=18.2.7     # TypeScript definitions for React DOM
+@types/react-router-dom=6.13.0  # TypeScript definitions for React Router
+@types/redux=4.0.0          # TypeScript definitions for Redux
+@types/react-redux=7.1.26   # TypeScript definitions for React Redux
+
+### UI and Styling
+tailwindcss=3.3.3           # Utility-first CSS framework
+postcss=8.4.29              # Tool for transforming CSS with JavaScript
+autoprefixer=10.4.15        # PostCSS plugin to parse CSS and add vendor prefixes
+@headlessui/react=1.7.17    # Unstyled, accessible UI components
+@heroicons/react=2.0.18     # SVG icons
+framer-motion=10.16.4       # Animation library
+react-datepicker=4.18.0     # Datepicker component
+@types/react-datepicker=4.15.0  # TypeScript definitions for react-datepicker
+react-time-picker=6.5.0     # Time picker component
+react-select=5.7.4          # Select input control
+react-toastify=9.1.3        # Toast notifications
+react-loading-skeleton=3.3.1 # Skeleton loading component
+
+### Form Handling
+formik=2.4.5                # Form library
+yup=1.2.0                   # Schema validation
+react-dropzone=14.2.3       # File upload component
+@types/react-dropzone=5.1.0 # TypeScript definitions for react-dropzone
+
+### Data Visualization
+chart.js=4.4.0              # Chart library
+react-chartjs-2=5.2.0       # React wrapper for Chart.js
+@react-google-maps/api=2.19.2  # Google Maps React components
+@types/google.maps=3.54.0   # TypeScript definitions for Google Maps
+
+### Utilities
+date-fns=2.30.0             # Date utility library
+lodash=4.17.21              # Utility library
+uuid=9.0.1                  # UUID generation
+@types/lodash=4.14.198      # TypeScript definitions for Lodash
+@types/uuid=9.0.4           # TypeScript definitions for UUID
+js-cookie=3.0.5             # Cookie handling
+@types/js-cookie=3.0.4      # TypeScript definitions for js-cookie
+jwt-decode=3.1.2            # JWT decoding
+
+## Backend Dependencies
+
+### Core Dependencies
+express=4.18.2              # Web framework for Node.js
+cors=2.8.5                  # CORS middleware
+helmet=7.0.0                # Security middleware
+compression=1.7.4           # Response compression middleware
+dotenv=16.3.1               # Environment variables
+mongoose=7.5.2              # MongoDB ODM
+typescript=5.2.2            # TypeScript language
+ts-node=10.9.1              # TypeScript execution for Node.js
+@types/express=4.17.17      # TypeScript definitions for Express
+@types/cors=2.8.14          # TypeScript definitions for CORS
+@types/compression=1.7.3    # TypeScript definitions for Compression
+@types/node=20.6.2          # TypeScript definitions for Node.js
+
+### Authentication and Security
+jsonwebtoken=9.0.2          # JWT implementation
+bcrypt=5.1.1                # Password hashing
+cookie-parser=1.4.6         # Cookie parsing middleware
+express-rate-limit=7.0.1    # Rate limiting middleware
+helmet=7.0.0                # Security headers middleware
+@types/jsonwebtoken=9.0.3   # TypeScript definitions for jsonwebtoken
+@types/bcrypt=5.0.0         # TypeScript definitions for bcrypt
+@types/cookie-parser=1.4.4  # TypeScript definitions for cookie-parser
+otplib=12.0.1               # TOTP library for MFA
+qrcode=1.5.3                # QR code generation for MFA
+@types/qrcode=1.5.2         # TypeScript definitions for qrcode
+
+### Validation and Sanitization
+joi=17.10.1                 # Schema validation
+express-validator=7.0.1     # Request validation middleware
+sanitize-html=2.11.0        # HTML sanitization
+@types/sanitize-html=2.9.1  # TypeScript definitions for sanitize-html
+
+### File Handling
+multer=1.4.5-lts.1          # Multipart form data handling
+sharp=0.32.5                # Image processing
+aws-sdk=2.1459.0            # AWS SDK for S3 storage
+@types/multer=1.4.7         # TypeScript definitions for multer
+
+### Logging and Monitoring
+winston=3.10.0              # Logging library
+morgan=1.10.0               # HTTP request logger
+@types/morgan=1.9.5         # TypeScript definitions for morgan
+pino=8.15.1                 # Fast logger
+pino-http=8.5.0             # HTTP logger middleware
+
+### Email and Notifications
+nodemailer=6.9.5            # Email sending
+@types/nodemailer=6.4.10    # TypeScript definitions for nodemailer
+twilio=4.17.0               # SMS service client
+@sendgrid/mail=7.7.0        # SendGrid email client (backup)
+
+### Integration Services
+googleapis=126.0.1          # Google APIs client
+stripe=13.7.0               # Stripe payment processing
+@googlemaps/google-maps-services-js=3.3.41  # Google Maps services
+
+### Utilities
+date-fns=2.30.0             # Date utility library
+lodash=4.17.21              # Utility library
+uuid=9.0.1                  # UUID generation
+@types/lodash=4.14.198      # TypeScript definitions for Lodash
+@types/uuid=9.0.4           # TypeScript definitions for UUID
+ioredis=5.3.2               # Redis client for caching
+@types/ioredis=5.0.0        # TypeScript definitions for ioredis
+
+## Development Dependencies
+
+### Build Tools
+webpack=5.88.2              # Module bundler
+webpack-cli=5.1.4           # Webpack CLI
+webpack-dev-server=4.15.1   # Development server
+ts-loader=9.4.4             # TypeScript loader for Webpack
+babel-loader=9.1.3          # Babel loader for Webpack
+@babel/core=7.22.17         # Babel compiler core
+@babel/preset-env=7.22.15   # Babel preset for environment
+@babel/preset-react=7.22.15 # Babel preset for React
+@babel/preset-typescript=7.22.15  # Babel preset for TypeScript
+css-loader=6.8.1            # CSS loader for Webpack
+postcss-loader=7.3.3        # PostCSS loader for Webpack
+style-loader=3.3.3          # Style loader for Webpack
+file-loader=6.2.0           # File loader for Webpack
+url-loader=4.1.1            # URL loader for Webpack
+html-webpack-plugin=5.5.3   # HTML file generation for Webpack
+mini-css-extract-plugin=2.7.6  # CSS extraction for Webpack
+terser-webpack-plugin=5.3.9 # JavaScript minification
+css-minimizer-webpack-plugin=5.0.1  # CSS minification
+dotenv-webpack=8.0.1        # Environment variables for Webpack
+copy-webpack-plugin=11.0.0  # File copying for Webpack
+webpack-bundle-analyzer=4.9.1  # Bundle analysis tool
+
+### Linting and Formatting
+eslint=8.49.0               # JavaScript and TypeScript linter
+@typescript-eslint/eslint-plugin=6.7.0  # TypeScript ESLint plugin
+@typescript-eslint/parser=6.7.0  # TypeScript ESLint parser
+eslint-plugin-react=7.33.2  # React ESLint plugin
+eslint-plugin-react-hooks=4.6.0  # React Hooks ESLint plugin
+eslint-plugin-import=2.28.1 # Import ESLint plugin
+eslint-plugin-jsx-a11y=6.7.1 # Accessibility ESLint plugin
+eslint-config-prettier=9.0.0 # Prettier ESLint configuration
+prettier=3.0.3              # Code formatter
+stylelint=15.10.3           # CSS linter
+stylelint-config-standard=34.0.0  # Standard stylelint configuration
+husky=8.0.3                 # Git hooks
+lint-staged=14.0.1          # Linting for staged files
+
+### Testing
+jest=29.7.0                 # Testing framework
+@types/jest=29.5.5          # TypeScript definitions for Jest
+ts-jest=29.1.1              # TypeScript preprocessor for Jest
+@testing-library/react=14.0.0  # React testing utilities
+@testing-library/jest-dom=6.1.3  # DOM testing utilities
+@testing-library/user-event=14.5.1  # User event simulation
+@testing-library/react-hooks=8.0.1  # React hooks testing
+jest-environment-jsdom=29.7.0  # JSDOM environment for Jest
+msw=1.3.1                   # Mock Service Worker for API mocking
+cypress=13.2.0              # End-to-end testing framework
+@cypress/code-coverage=3.12.10  # Code coverage for Cypress
+supertest=6.3.3             # HTTP assertions for API testing
+@types/supertest=2.0.12     # TypeScript definitions for supertest
+
+### Documentation
+typedoc=0.25.1              # TypeScript documentation generator
+swagger-jsdoc=6.2.8         # Swagger JSDoc integration
+swagger-ui-express=5.0.0    # Swagger UI for Express
+@types/swagger-ui-express=4.1.3  # TypeScript definitions for swagger-ui-express
+jsdoc=4.0.2                 # JavaScript documentation generator
+storybook=7.4.2             # UI component development environment
+
+### Deployment and CI/CD
+pm2=5.3.0                   # Process manager for Node.js
+docker=24.0.6               # Containerization
+docker-compose=2.21.0       # Multi-container Docker applications
+aws-cdk=2.96.2              # AWS Cloud Development Kit
+serverless=3.35.2           # Serverless framework

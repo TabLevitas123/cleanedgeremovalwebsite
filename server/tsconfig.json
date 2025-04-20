@@ -1,0 +1,37 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": ["ES2020"],
+    "outDir": "dist",
+    // "rootDir": "src", // Removed rootDir
+    // "baseUrl": "src", // Removed baseUrl
+    "composite": true, // Ensure composite is true
+    "paths": {
+      // Keep existing paths if needed, but direct reference is preferred
+      "@/*": ["./src/*"], // Adjusted path relative to tsconfig location
+      "@config/*": ["config/*"],
+      "@api/*": ["api/*"],
+      "@models/*": ["models/*"],
+      "@services/*": ["services/*"],
+      "@utils/*": ["utils/*"],
+      "@middlewares/*": ["api/middlewares/*"],
+      "@validators/*": ["api/validators/*"],
+      "@cleanedgeremovalwebsite/shared/*": ["../../shared/src/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "sourceMap": true,
+    "inlineSources": true,
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"],
+  "references": [ // Add reference to the shared project
+    { "path": "../shared" }
+  ]
+}

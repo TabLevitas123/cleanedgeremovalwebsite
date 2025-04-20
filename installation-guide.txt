@@ -1,0 +1,356 @@
+# Clean Edge Removal LLC Website Project - Installation Guide
+
+This guide provides instructions for setting up the development environment for the Clean Edge Removal LLC website project.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your system:
+
+1. **Node.js** (v18.x LTS or later)
+   - Download and install from: https://nodejs.org/
+
+2. **npm** (v9.x or later, comes with Node.js)
+   - Verify with: `npm -v`
+
+3. **MongoDB** (v5.0 or later)
+   - Download and install from: https://www.mongodb.com/try/download/community
+   - Alternatively, use MongoDB Atlas: https://www.mongodb.com/cloud/atlas
+
+4. **Git** (latest version)
+   - Download and install from: https://git-scm.com/downloads
+
+5. **Docker** (optional, for containerization)
+   - Download and install from: https://www.docker.com/products/docker-desktop
+
+## Project Setup
+
+### 1. Clone the Repository
+
+```bash
+# Clone the repository
+git clone https://github.com/your-organization/cleanedgeremovalwebsite.git
+
+# Navigate to the project directory
+cd cleanedgeremovalwebsite
+```
+
+### 2. Install Dependencies
+
+The project uses a monorepo structure with separate packages for frontend, backend, and shared code. You'll need to install dependencies for each package.
+
+```bash
+# Install root dependencies
+npm install
+
+# Install client dependencies
+cd client
+npm install
+cd ..
+
+# Install server dependencies
+cd server
+npm install
+cd ..
+
+# Install shared dependencies
+cd shared
+npm install
+cd ..
+```
+
+Alternatively, if you have npm workspaces configured:
+
+```bash
+# Install all dependencies at once
+npm install
+```
+
+## Environment Configuration
+
+### 1. Create Environment Files
+
+Create the following environment files with the appropriate values:
+
+#### Root Directory (.env)
+
+```
+NODE_ENV=development
+```
+
+#### Client Directory (client/.env.development)
+
+```
+REACT_APP_API_URL=http://localhost:5000/api
+REACT_APP_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+REACT_APP_STRIPE_PUBLIC_KEY=your_stripe_public_key
+```
+
+#### Server Directory (server/.env.development)
+
+```
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/cleanedgeremoval
+JWT_SECRET=your_jwt_secret
+JWT_REFRESH_SECRET=your_jwt_refresh_secret
+JWT_EXPIRATION=15m
+JWT_REFRESH_EXPIRATION=30d
+
+# AWS SES Configuration
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your_aws_access_key_id
+AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+SES_FROM_EMAIL=noreply@cleanedgeremoval.com
+
+# Google Calendar API
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:5000/api/integrations/calendar/callback
+
+# Twilio API
+TWILIO_ACCOUNT_SID=your_twilio_account_sid
+TWILIO_AUTH_TOKEN=your_twilio_auth_token
+TWILIO_PHONE_NUMBER=your_twilio_phone_number
+
+# Stripe API
+STRIPE_SECRET_KEY=your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
+```
+
+### 2. External Service Setup
+
+#### AWS SES Setup
+
+1. Create an AWS account if you don't have one: https://aws.amazon.com/
+2. Navigate to the SES service in the AWS Console
+3. Verify your domain or email address
+4. Create SMTP credentials
+5. Update the AWS configuration in the server/.env file
+
+#### Google Calendar API Setup
+
+1. Go to the Google Cloud Console: https://console.cloud.google.com/
+2. Create a new project
+3. Enable the Google Calendar API
+4. Create OAuth 2.0 credentials
+5. Configure the consent screen
+6. Add the credentials to the server/.env file
+
+#### Twilio API Setup
+
+1. Create a Twilio account: https://www.twilio.com/
+2. Get your Account SID and Auth Token from the dashboard
+3. Purchase a phone number
+4. Add the credentials to the server/.env file
+
+#### Stripe API Setup
+
+1. Create a Stripe account: https://stripe.com/
+2. Get your API keys from the dashboard
+3. Configure webhook endpoints
+4. Add the credentials to the client/.env and server/.env files
+
+## Database Setup
+
+### 1. Start MongoDB
+
+If you're using a local MongoDB installation:
+
+```bash
+# Start MongoDB service
+sudo service mongod start  # Linux
+brew services start mongodb-community  # macOS
+```
+
+### 2. Initialize Database
+
+```bash
+# Navigate to the server directory
+cd server
+
+# Run database initialization script
+npm run db:init
+```
+
+## Development Workflow
+
+### 1. Start Development Servers
+
+#### Option 1: Start Frontend and Backend Separately
+
+```bash
+# Start frontend development server (in client directory)
+cd client
+npm run dev
+
+# Start backend development server (in server directory)
+cd server
+npm run dev
+```
+
+#### Option 2: Start All Services with Concurrently
+
+```bash
+# Start all services from the root directory
+npm run dev
+```
+
+### 2. Access the Application
+
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:5000/api
+- API Documentation: http://localhost:5000/api-docs
+
+## Testing
+
+### 1. Run Tests
+
+```bash
+# Run frontend tests
+cd client
+npm test
+
+# Run backend tests
+cd server
+npm test
+
+# Run all tests from the root directory
+npm test
+```
+
+### 2. Run End-to-End Tests
+
+```bash
+# Start the application in test mode
+npm run dev:test
+
+# In a separate terminal, run Cypress tests
+npm run cypress:open
+```
+
+## Building for Production
+
+### 1. Build the Application
+
+```bash
+# Build frontend
+cd client
+npm run build
+
+# Build backend
+cd server
+npm run build
+
+# Build all packages from the root directory
+npm run build
+```
+
+### 2. Run Production Build Locally
+
+```bash
+# Start the production server
+cd server
+npm start
+```
+
+## Deployment
+
+### Option 1: Traditional Deployment
+
+1. Build the application as described above
+2. Deploy the server/dist directory to your production server
+3. Configure environment variables on your production server
+4. Start the application with PM2 or similar process manager
+
+```bash
+# Install PM2 globally
+npm install -g pm2
+
+# Start the application with PM2
+pm2 start server/dist/index.js --name cleanedgeremoval
+```
+
+### Option 2: Docker Deployment
+
+1. Build the Docker image
+
+```bash
+# Build the Docker image
+docker build -t cleanedgeremoval .
+```
+
+2. Run the Docker container
+
+```bash
+# Run the Docker container
+docker run -p 80:5000 -d cleanedgeremoval
+```
+
+### Option 3: AWS Deployment
+
+1. Install the AWS CLI and configure your credentials
+2. Deploy using the provided AWS CDK script
+
+```bash
+# Deploy to AWS
+npm run deploy:aws
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **MongoDB Connection Error**
+   - Ensure MongoDB is running
+   - Check the connection string in the .env file
+   - Verify network connectivity
+
+2. **Node.js Version Mismatch**
+   - Use nvm to install and use the correct Node.js version
+   - Run `nvm use` in the project directory
+
+3. **Port Already in Use**
+   - Change the port in the .env file
+   - Kill the process using the port: `kill $(lsof -t -i:3000)`
+
+4. **API Key Issues**
+   - Verify API keys are correct in the .env files
+   - Check service dashboards for key status
+
+## External Service Requirements
+
+### API Keys and Services
+
+The following external services require API keys or accounts:
+
+1. **Google Maps API**
+   - Required for: Address validation, service area visualization, routing optimization
+   - Sign up at: https://cloud.google.com/maps-platform/
+
+2. **AWS SES**
+   - Required for: Transactional emails, marketing emails
+   - Sign up at: https://aws.amazon.com/ses/
+
+3. **Google Calendar API**
+   - Required for: Appointment scheduling, calendar synchronization
+   - Sign up at: https://console.cloud.google.com/
+
+4. **Twilio API**
+   - Required for: SMS notifications, verification codes
+   - Sign up at: https://www.twilio.com/
+
+5. **Stripe API**
+   - Required for: Payment processing, invoicing
+   - Sign up at: https://stripe.com/
+
+### Service Configuration
+
+Each service requires specific configuration steps. Refer to the respective service documentation for detailed setup instructions.
+
+## Additional Resources
+
+- [MongoDB Documentation](https://docs.mongodb.com/)
+- [Express.js Documentation](https://expressjs.com/)
+- [React Documentation](https://reactjs.org/docs/getting-started.html)
+- [Node.js Documentation](https://nodejs.org/en/docs/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)

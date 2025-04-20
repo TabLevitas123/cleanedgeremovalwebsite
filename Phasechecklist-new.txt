@@ -1,0 +1,85 @@
+# Clean Edge Removal LLC Website Project Checklist (Updated 2025-04-20 ~19:07 UTC)
+
+This checklist meticulously tracks the progress of the Clean Edge Removal LLC website project, adhering to the defined 4-phase development process. Each item must be marked as complete ([x]) only when the corresponding task is fully implemented, tested according to standards, and documented appropriately.
+
+## Phase 1: Planning and Architecture (Completed)
+- [x] Analyze Requirements: Thoroughly review initial specifications and user requests.
+- [x] Design System Architecture: Define overall structure (Monorepo, Client-Server, Shared Package), technology stack (React, Node.js, TypeScript, MySQL, IONOS).
+- [x] Create File Tree Structure: Define initial project directory layout (`file-tree.md`).
+- [x] Define Component Hierarchy: Plan frontend component structure (`component-hierarchy.md`).
+- [x] Plan Database Schema: Design initial database models (originally MongoDB, then translated to MySQL in `database-models.md`).
+- [x] Define API Endpoints: Specify RESTful API endpoints (`api-endpoints.md`).
+- [x] Design Authentication Flow: Detail authentication mechanisms (JWT, RBAC, MFA) and flows (`authentication-flow.md`).
+- [x] Plan Integration Services: Identify required external services (Email, Calendar, Geolocation, SMS, Payment) (`integration-services.md`).
+- [x] Generate Image Prompts: Create text prompts for required vector images (`requiredimages.md`).
+- [x] Initial Documentation Review & Update: Perform first pass consolidation and update of planning documents.
+
+## Phase 2: Homepage Module Development (In Progress)
+- [x] Set up IONOS Managed MySQL 8.0 Database: Provision database instance on IONOS and obtain credentials.
+- [ ] Implement Homepage UI & Core Functionality
+  - [x] Refactor `HomePage.tsx`: Decompose original `HomePage.tsx` into individual section components within `client/src/components/pages/public/HomePage/sections/`.
+  - [x] Implement Section Structures: Create basic JSX structure and placeholders within each new section component (Hero, HowItWorks, WhyChooseUs, Services, Cta, Testimonials, Faq, ServiceArea, SchedulingContact, Newsletter).
+  - [x] Implement `SchedulingContactSection` Form Structure: Add basic HTML for the quote request form (inputs, checkboxes, textarea, buttons) within `SchedulingContactSection.tsx`.
+  - [x] Implement `SchedulingContactSection` State: Add `useState` hooks (`formData`, `showOtherDescription`) and handler functions (`handleChange`, `handleServiceChange`, `handleCheckboxChange`) within `SchedulingContactSection.tsx`.
+  - [ ] Connect Form State & Handlers: Bind `value`/`checked` props to `formData` state and `onChange` props to handler functions for all form elements in `SchedulingContactSection.tsx`. **(Next Immediate Task)**
+  - [ ] Implement Conditional Rendering ("Other" Textarea): Add logic to show/hide the `otherDescription` textarea based on the "Other" service checkbox state in `SchedulingContactSection.tsx`.
+  - [ ] Implement Client-Side Form Validation: Add validation logic (required fields, email format, phone format) within `SchedulingContactSection.tsx`, including user feedback for errors.
+  - [ ] Implement Styling Refinements: Apply detailed styling (Tailwind CSS) to match specifications (placeholder opacity, custom circle checkboxes, button states, section backgrounds/gradients, header underlines) across relevant components.
+  - [ ] Implement Dynamic Content (Scheduling Section): Add logic in `SchedulingContactSection.tsx` to display different header/intro text based on the (future) administrative "Auto Schedule" toggle state.
+  - [ ] Implement Functional Components/Integrations (Homepage):
+      - [ ] Google Map Integration (`ServiceAreaSection.tsx`): Display interactive map with custom style, service area overlay, HQ marker.
+      - [ ] Address Checker (`ServiceAreaSection.tsx`): Implement functionality for the address checker tool.
+      - [ ] Animated Counters (`WhyChooseUsSection.tsx`): Implement animated number counters for statistical highlights.
+      - [ ] CAPTCHA Integration (`SchedulingContactSection.tsx`): Integrate Google reCAPTCHA v3 (with v2 fallback) into the quote request form.
+      - [ ] Service Icon Display (`ServicesSection.tsx`): Load and display generated vector icons for each service card.
+      - [ ] Testimonial Carousel (`TestimonialsSection.tsx`): Implement carousel functionality (e.g., using a library like Swiper or building custom).
+- [ ] Implement Quote Request Form Submission Backend
+  - [x] Define API Endpoint Structure: Create `POST /api/quote-requests` route structure (`server/src/api/routes/quote.routes.ts`, `server/src/api/routes/index.ts`).
+  - [ ] Implement Server-Side Validation: Create detailed validation schema/logic (`server/src/api/validators/quote.validator.ts`) for the quote request payload.
+  - [ ] Implement Controller Logic (`server/src/api/controllers/quote.controller.ts`):
+      - [ ] Database Interaction: Use ORM/query builder to save validated data to `Customers` (and related) MySQL tables.
+      - [ ] Email Notification: Integrate `ionosEmailService` to send notification to admin upon successful save.
+  - [ ] Implement Standardized API Responses: Ensure the endpoint returns correct success (201) and error (400, 500) responses with appropriate JSON payloads.
+- [ ] Implement Frontend-Backend Integration for Quote Request
+  - [ ] Implement `onSubmit` Handler (`SchedulingContactSection.tsx`): Add logic to handle form submission event.
+  - [ ] Construct API Payload: Create the data object from `formData` state matching the API expectation.
+  - [ ] Call API Endpoint: Use configured API client (`client/src/services/api.ts`) to send `POST` request.
+  - [ ] Handle API Response: Implement logic to display success/error messages (using `NotificationToast`), handle loading states, and potentially clear the form on success.
+- [ ] Implement Server Configuration for MySQL
+    - [ ] Update `server/src/config/database.ts`: Configure connection using IONOS MySQL credentials from environment variables.
+    - [ ] Install ORM/Driver: Add `mysql2` and chosen ORM (e.g., `sequelize`, `typeorm`) to `server/package.json` and install.
+    - [ ] Initialize ORM: Ensure ORM connects successfully to the IONOS database on server startup.
+- [ ] Define MySQL Models (`server/src/models/`)
+    - [ ] Create/Update ORM models for all tables defined in `database-models-new.md`, ensuring correct types, relationships, and validations.
+- [ ] Adapt Server Logic for MySQL
+    - [ ] Refactor existing/planned services and controllers to use the MySQL ORM/query builder instead of any previous MongoDB logic.
+- [ ] Implement Email Notifications (IONOS SMTP)
+    - [x] Create `ionosEmail.service.ts`: Basic service structure exists.
+    - [ ] Refine Email Service: Implement robust email sending logic using Nodemailer configured for IONOS SMTP (from `ionos.ts` config). Include template rendering (e.g., using Handlebars).
+    - [ ] Integrate in Controller: Call email service from `quote.controller.ts` after successful database save.
+- [ ] Implement Auto Schedule Toggle (Placeholder)
+    - [ ] Add Admin Setting: Define mechanism in admin settings (backend) to store the toggle state (ON/OFF). (Defer full implementation to Admin Portal phase).
+    - [ ] Fetch Setting: Implement frontend logic (e.g., in `SchedulingContactSection.tsx`) to fetch this setting (placeholder for now).
+    - [ ] Conditional Rendering: Use fetched setting to conditionally render quote form vs. scheduling components (already partially implemented with `isAutoScheduleMode` placeholder).
+- [ ] Basic Homepage Testing
+    - [ ] Unit Tests (Client): Write Jest/RTL tests for `SchedulingContactSection` and other modified/new homepage components/sections, covering rendering, state changes, and event handlers.
+    - [ ] Integration Tests (Server): Write Jest/Supertest tests for the `POST /api/quote-requests` endpoint, covering validation, database interaction (mocked), email sending (mocked), and response codes.
+    - [ ] E2E Tests (Client - Planned): Plan Cypress tests for the quote request user flow.
+
+## Phase 3: Modular Website Development & Testing (Pending)
+- [ ] Develop API Module (Remaining Endpoints)
+- [ ] Develop Database Module (ORM Models, Migrations, Seeding)
+- [ ] Develop Admin Portal Module (UI & Functionality)
+- [ ] Develop Authentication Module (Full Implementation & Security Hardening)
+- [ ] Develop Employee Portal Module (UI & Functionality)
+- [ ] Develop Remaining Public Pages (About, Services List, Contact, etc.)
+- [ ] Comprehensive Testing (Unit, Integration, E2E for all modules)
+
+## Phase 4: CI/CD Pipeline Implementation & Deployment (Pending)
+- [ ] Set up GitHub Actions CI/CD Workflow for IONOS
+- [ ] Configure Staging Environment on IONOS
+- [ ] Deploy to IONOS Staging via CI/CD
+- [ ] Test Thoroughly on Staging Environment
+- [ ] Configure Production Environment on IONOS
+- [ ] Deploy to IONOS Production via CI/CD
+- [ ] Final Production Verification and Monitoring Setup
