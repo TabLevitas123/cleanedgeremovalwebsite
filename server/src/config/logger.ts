@@ -55,7 +55,7 @@ const consoleFormat = format.combine(
 );
 
 // Create transports
-const transports = [
+const transports: winston.transport[] = [
   // Console transport for all environments
   new winston.transports.Console({
     format: consoleFormat,

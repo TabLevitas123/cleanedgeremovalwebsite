@@ -12,15 +12,14 @@
     "paths": {
       // Keep existing paths if needed, but direct reference is preferred
       "@/*": ["./src/*"], // Adjusted path relative to tsconfig location
-      "@components/*": ["components/*"],
-      "@features/*": ["features/*"],
-      "@hooks/*": ["hooks/*"],
-      "@utils/*": ["utils/*"],
-      "@services/*": ["services/*"],
-      "@contexts/*": ["contexts/*"],
-      "@types/*": ["types/*"],
-      "@assets/*": ["assets/*"],
-      "@cleanedgeremovalwebsite/shared/*": ["../../shared/src/*"]
+      "@components/*": ["./src/components/*"],
+      "@features/*": ["./src/features/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@services/*": ["./src/services/*"],
+      "@contexts/*": ["./src/contexts/*"],
+      "@types/*": ["./src/types/*"],
+      "@assets/*": ["./src/assets/*"]
     },
     "allowJs": true,
     "checkJs": false,

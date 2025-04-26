@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppDataSource } from '../../config/database';
 import { Customer } from '../../models/Customer.model';
-import { CustomerServiceAddress } from '../../models/CustomerServiceAddress.model';
-import { Tag } from '../../models/Tag.model'; // Assuming Tag model exists for potential future use
 import logger from '../../config/logger';
 import ionosEmailService from '../../services/ionosEmail.service'; // Assuming default export
 import { env } from '../../utils/env';

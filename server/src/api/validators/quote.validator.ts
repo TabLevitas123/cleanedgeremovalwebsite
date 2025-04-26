@@ -67,5 +67,6 @@ export const validateQuoteRequest = [
             return res.status(400).json({ errors: errors.array() });
         }
         next(); // Proceed to the controller if validation passes
+        return; // Explicit return to satisfy TS7030
     },
 ];

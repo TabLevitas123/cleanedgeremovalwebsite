@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import dotenv from 'dotenv';
 import path from 'path';
 import { env } from '../utils/env'; // Assuming env utility loads/parses .env
 

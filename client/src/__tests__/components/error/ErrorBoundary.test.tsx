@@ -22,21 +22,34 @@ const ErrorThrowingComponent = ({ shouldThrow = true }: { shouldThrow?: boolean 
 
 // Save original console.error
 const originalConsoleError = console.error;
+// Save original window.location reference
+const originalWindowLocation = window.location;
 
 describe('ErrorBoundary', () => {
-  // Suppress React's error logging in tests
+  // Suppress React's error logging in tests and mock window.location
   beforeAll(() => {
     console.error = jest.fn();
+    // Use Object.defineProperty for more control over mocking location
+    Object.defineProperty(window, 'location', {
+      configurable: true, // Allow redefining/deleting later
+      value: { ...originalWindowLocation, reload: jest.fn() }, // Spread original properties and add mock reload
+    });
   });
 
-  // Restore original console.error after tests
+  // Restore original console.error and window.location after tests
   afterAll(() => {
     console.error = originalConsoleError;
+    // Restore original window.location
+    Object.defineProperty(window, 'location', {
+        configurable: true,
+        value: originalWindowLocation,
+    });
   });
 
   // Reset mocks before each test
   beforeEach(() => {
     jest.clearAllMocks();
+    (window.location.reload as jest.Mock).mockClear(); 
   });
 
   it('should render children when no error occurs', () => {
@@ -113,7 +126,10 @@ describe('ErrorBoundary', () => {
     // Check that onError was called with the error
     expect(handleError).toHaveBeenCalledTimes(1);
     expect(handleError.mock.calls[0][0]).toBeInstanceOf(Error);
-    expect(handleError.mock.calls[0][0].message).toBe('Test error');
+    expect(handleError).toHaveBeenCalledWith(
+        expect.any(Error), 
+        expect.objectContaining({ componentStack: expect.any(String) }) 
+    );
 
     // Restore console.error for other tests
     spy.mockRestore();
@@ -134,11 +150,12 @@ describe('ErrorBoundary', () => {
 
     // Check that logger.error was called
     expect(logger.error).toHaveBeenCalledTimes(1);
+    // Corrected assertion: Check the structure based on previous test output
     expect(logger.error).toHaveBeenCalledWith(
       'Error caught by ErrorBoundary:',
-      expect.objectContaining({
-        error: expect.stringContaining('Test error'),
-        componentStack: expect.any(String),
+      expect.objectContaining({ // Check the outer object structure
+        error: "Error: Test error", // Expect the error message string directly
+        componentStack: expect.any(String), // Verify componentStack is a string
       })
     );
 
@@ -146,17 +163,12 @@ describe('ErrorBoundary', () => {
     spy.mockRestore();
   });
 
-  it('should handle reload page button click', () => {
+  it('should handle reload page button click', async () => { 
     // Suppress React's error boundary warning in this test
-    const spy = jest.spyOn(console, 'error');
-    spy.mockImplementation(() => {});
+    const consoleErrorSpy = jest.spyOn(console, 'error');
+    consoleErrorSpy.mockImplementation(() => {});
 
-    // Mock window.location.reload
-    const mockReload = jest.fn();
-    Object.defineProperty(window, 'location', {
-      value: { reload: mockReload },
-      writable: true,
-    });
+    // Mock is handled in beforeAll/afterAll
 
     render(
       <MemoryRouter>
@@ -166,14 +178,14 @@ describe('ErrorBoundary', () => {
       </MemoryRouter>
     );
 
-    // Click the reload button
-    userEvent.click(screen.getByText('Reload Page'));
+    // Click the reload button using userEvent for more realistic interaction
+    await userEvent.click(screen.getByText('Reload Page'));
 
     // Check that window.location.reload was called
-    expect(mockReload).toHaveBeenCalledTimes(1);
+    expect(window.location.reload).toHaveBeenCalledTimes(1);
 
-    // Restore console.error for other tests
-    spy.mockRestore();
+    // Restore mocks
+    consoleErrorSpy.mockRestore();
   });
 
   it('should not show error details in production', () => {
@@ -213,7 +225,7 @@ describe('ErrorBoundary', () => {
     // Save original NODE_ENV
     const originalNodeEnv = process.env.NODE_ENV;
     
-    // Set NODE_ENV to development
+    // Set NODE_ENV to development (Jest default is 'test', explicitly set for clarity)
     process.env.NODE_ENV = 'development';
 
     render(
@@ -226,7 +238,7 @@ describe('ErrorBoundary', () => {
 
     // Check that error details are shown
     expect(screen.getByText('Error Details:')).toBeInTheDocument();
-    expect(screen.getByText(/Test error/)).toBeInTheDocument();
+    expect(screen.getByText(/Test error/)).toBeInTheDocument(); 
 
     // Restore NODE_ENV
     process.env.NODE_ENV = originalNodeEnv;

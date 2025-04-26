@@ -3,6 +3,7 @@
     "target": "ES2020",
     "module": "CommonJS",
     "lib": ["ESNext", "DOM"],
+    "jsx": "preserve",
     "declaration": true,
     "declarationMap": true, // Added for better reference support
     "sourceMap": true,
@@ -22,7 +23,7 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@cleanedgeremovalwebsite/shared/*": ["shared/src/*"]
+      "@cleanedgeremovalwebsite/shared/*": ["shared/dist/*"]
     },
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -30,8 +31,8 @@
     "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules", "dist"],
-  "references": [ // Added project references
-    { "path": "./client" },
+  "references": [ // Updated project references
+    // Removed reference to client as it uses noEmit and is built by Webpack
     { "path": "./server" },
     { "path": "./shared" }
   ]

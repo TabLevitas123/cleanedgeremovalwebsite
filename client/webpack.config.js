@@ -6,6 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin'); // Import the plugin
 
 const isProduction = process.env.NODE_ENV === 'production';
 const analyzeBundle = process.env.ANALYZE === 'true';
@@ -25,6 +26,7 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx', '.json'],
     alias: {
+      // Keep existing aliases if they are still needed for non-TS files or specific overrides
       '@': path.resolve(__dirname, 'src'),
       '@components': path.resolve(__dirname, 'src/components'),
       '@features': path.resolve(__dirname, 'src/features'),
@@ -33,8 +35,16 @@ module.exports = {
       '@services': path.resolve(__dirname, 'src/services'),
       '@contexts': path.resolve(__dirname, 'src/contexts'),
       '@types': path.resolve(__dirname, 'src/types'),
-      '@assets': path.resolve(__dirname, 'src/assets')
-    }
+      '@assets': path.resolve(__dirname, 'src/assets'),
+      // Alias for the shared package build output
+      '@cleanedgeremovalwebsite/shared': path.resolve(__dirname, '../shared/dist'),
+    },
+    // Add the TsconfigPathsPlugin
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: path.resolve(__dirname, 'tsconfig.json') // Point to the client tsconfig
+      })
+    ]
   },
   module: {
     rules: [
@@ -44,7 +54,11 @@ module.exports = {
         use: {
           loader: 'ts-loader',
           options: {
-            transpileOnly: !isProduction
+            // Important: disable ts-loader's internal resolver when using TsconfigPathsPlugin
+            // to avoid conflicts, unless you have specific reasons otherwise.
+            // However, keeping it enabled might be necessary depending on setup.
+            // Let's keep it default for now and disable if issues arise.
+             transpileOnly: !isProduction // Faster builds in dev, relies on ForkTsCheckerWebpackPlugin if added
           }
         }
       },
@@ -102,13 +116,15 @@ module.exports = {
             from: 'public',
             to: '',
             globOptions: {
-              ignore: ['**/index.html', '**/favicon.ico']
+              ignore: ['**/index.html', '**/favicon.ico'] // Let HtmlWebpackPlugin handle index.html
             }
           }
         ]
       })
     ] : []),
     ...(analyzeBundle ? [new BundleAnalyzerPlugin({ analyzerMode: 'static' })] : [])
+    // Consider adding ForkTsCheckerWebpackPlugin for faster type checking in development
+    // if using transpileOnly: true in ts-loader
   ],
   optimization: {
     minimize: isProduction,

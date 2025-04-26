@@ -16,7 +16,7 @@ router.use('/quotes', quoteRoutes);
 // router.use('/appointments', appointmentRoutes);
 
 // Default API route (optional)
-router.get('/', (req, res) => {
+router.get('/', (_req, res) => {
     res.json({ message: 'API is working' });
 });
 
